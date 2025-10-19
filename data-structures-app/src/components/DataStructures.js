@@ -1,5 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DataStructures.css';
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+  serializeDataStructures,
+  deserializeDataStructures,
+  saveSession,
+  getSessionNames,
+  deleteSession,
+  loadSessions
+} from '../utils/localStorage';
+import { getComplexity } from '../utils/complexity';
 
 // Data Structure Classes
 class ArrayDS {
@@ -207,14 +218,62 @@ const DataStructures = () => {
   });
 
   const [operationHistory, setOperationHistory] = useState([]);
+  const [error, setError] = useState('');
+  const [sessions, setSessions] = useState([]);
+  const [showSessionModal, setShowSessionModal] = useState(false);
+  const [sessionName, setSessionName] = useState('');
+
+  // Load data on mount
+  useEffect(() => {
+    const savedData = loadFromLocalStorage('ds_current_state');
+    if (savedData) {
+      const classes = { ArrayDS, Stack, Queue, LinkedList, BinaryTree };
+      const loadedStructures = deserializeDataStructures(savedData, classes);
+      setDataStructures(loadedStructures);
+    }
+    
+    // Load saved sessions
+    const savedSessions = getSessionNames();
+    setSessions(savedSessions);
+  }, []);
+
+  // Auto-save on data structure changes
+  useEffect(() => {
+    const serialized = serializeDataStructures(dataStructures);
+    saveToLocalStorage('ds_current_state', serialized);
+  }, [dataStructures]);
 
   const addOperation = (operation) => {
     setOperationHistory(prev => [...prev.slice(-4), operation]);
   };
 
+  const validateInput = (operation) => {
+    if (!inputValue.trim()) {
+      setError('Please enter a value');
+      return false;
+    }
+
+    // Binary tree requires numeric values
+    if (activeTab === 'binaryTree') {
+      if (isNaN(inputValue)) {
+        setError('Binary tree requires numeric values');
+        return false;
+      }
+    }
+
+    setError('');
+    return true;
+  };
+
   const handleOperation = (operation) => {
     const ds = dataStructures[activeTab];
     let result = '';
+
+    // Operations that require input
+    const requiresInput = ['push', 'enqueue', 'add', 'insert', 'search', 'remove'];
+    if (requiresInput.includes(operation) && !validateInput(operation)) {
+      return;
+    }
 
     switch (operation) {
       case 'push':
@@ -222,6 +281,7 @@ const DataStructures = () => {
           ds.push(inputValue);
           addOperation(`Pushed: ${inputValue}`);
           setInputValue('');
+          setError('');
         }
         break;
       case 'pop':
@@ -237,6 +297,7 @@ const DataStructures = () => {
           ds.enqueue(inputValue);
           addOperation(`Enqueued: ${inputValue}`);
           setInputValue('');
+          setError('');
         }
         break;
       case 'dequeue':
@@ -246,12 +307,14 @@ const DataStructures = () => {
         } else {
           addOperation('Dequeue failed: queue empty');
         }
+        setError('');
         break;
       case 'add':
         if (inputValue) {
           ds.add(inputValue);
           addOperation(`Added: ${inputValue}`);
           setInputValue('');
+          setError('');
         }
         break;
       case 'remove':
@@ -259,26 +322,32 @@ const DataStructures = () => {
           const success = ds.remove(inputValue);
           addOperation(success ? `Removed: ${inputValue}` : `Remove failed: ${inputValue} not found`);
           setInputValue('');
+          setError('');
         }
         break;
       case 'insert':
         if (inputValue) {
-          ds.insert(inputValue);
+          const value = activeTab === 'binaryTree' ? parseFloat(inputValue) : inputValue;
+          ds.insert(value);
           addOperation(`Inserted: ${inputValue}`);
           setInputValue('');
+          setError('');
         }
         break;
       case 'search':
         if (inputValue) {
           let index = -1;
+          const searchValue = activeTab === 'binaryTree' ? parseFloat(inputValue) : inputValue;
+          
           if (activeTab === 'array') {
-            index = ds.search(inputValue);
+            index = ds.search(searchValue);
           } else if (activeTab === 'linkedList') {
-            index = ds.search(inputValue);
+            index = ds.search(searchValue);
           } else if (activeTab === 'binaryTree') {
-            const found = ds.search(inputValue);
+            const found = ds.search(searchValue);
             addOperation(found ? `Found: ${inputValue}` : `Not found: ${inputValue}`);
             setInputValue('');
+            setError('');
             return;
           }
           
@@ -288,6 +357,7 @@ const DataStructures = () => {
             addOperation(`Not found: ${inputValue}`);
           }
           setInputValue('');
+          setError('');
         }
         break;
       default:
@@ -297,7 +367,45 @@ const DataStructures = () => {
     setDataStructures({...dataStructures});
   };
 
+  const handleSaveSession = () => {
+    if (!sessionName.trim()) {
+      setError('Please enter a session name');
+      return;
+    }
+    
+    const serialized = serializeDataStructures(dataStructures);
+    saveSession(sessionName, serialized);
+    
+    const savedSessions = getSessionNames();
+    setSessions(savedSessions);
+    setSessionName('');
+    setShowSessionModal(false);
+    addOperation(`Session saved: ${sessionName}`);
+  };
+
+  const handleLoadSession = (name) => {
+    const allSessions = loadSessions();
+    const session = allSessions[name];
+    
+    if (session) {
+      const classes = { ArrayDS, Stack, Queue, LinkedList, BinaryTree };
+      const loadedStructures = deserializeDataStructures(session.data, classes);
+      setDataStructures(loadedStructures);
+      addOperation(`Session loaded: ${name}`);
+      setShowSessionModal(false);
+    }
+  };
+
+  const handleDeleteSession = (name) => {
+    deleteSession(name);
+    const savedSessions = getSessionNames();
+    setSessions(savedSessions);
+    addOperation(`Session deleted: ${name}`);
+  };
+
   const clearStructure = () => {
+    setError('');
+    setInputValue('');
     switch (activeTab) {
       case 'array':
         setDataStructures({...dataStructures, array: new ArrayDS()});
@@ -313,6 +421,8 @@ const DataStructures = () => {
         break;
       case 'binaryTree':
         setDataStructures({...dataStructures, binaryTree: new BinaryTree()});
+        break;
+      default:
         break;
     }
     addOperation('Structure cleared');
@@ -364,6 +474,81 @@ const DataStructures = () => {
     }
   };
 
+  const calculateTreeLayout = (node, x = 300, y = 40, level = 0, offset = 150) => {
+    if (!node) return [];
+    
+    const positions = [{ value: node.value, x, y, level }];
+    const newOffset = offset / 2;
+    
+    if (node.left) {
+      positions.push({ type: 'line', x1: x, y1: y, x2: x - offset, y2: y + 80 });
+      positions.push(...calculateTreeLayout(node.left, x - offset, y + 80, level + 1, newOffset));
+    }
+    
+    if (node.right) {
+      positions.push({ type: 'line', x1: x, y1: y, x2: x + offset, y2: y + 80 });
+      positions.push(...calculateTreeLayout(node.right, x + offset, y + 80, level + 1, newOffset));
+    }
+    
+    return positions;
+  };
+
+  const renderBinaryTree = () => {
+    const ds = dataStructures.binaryTree;
+    if (!ds.root) {
+      return <div className="empty-tree">Tree is empty</div>;
+    }
+
+    const positions = calculateTreeLayout(ds.root);
+    const lines = positions.filter(p => p.type === 'line');
+    const nodes = positions.filter(p => !p.type);
+
+    return (
+      <svg className="tree-svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+        {lines.map((line, index) => (
+          <line
+            key={`line-${index}`}
+            x1={line.x1}
+            y1={line.y1}
+            x2={line.x2}
+            y2={line.y2}
+            stroke="#667eea"
+            strokeWidth="2"
+          />
+        ))}
+        {nodes.map((node, index) => (
+          <g key={`node-${index}`}>
+            <circle
+              cx={node.x}
+              cy={node.y}
+              r="25"
+              fill="url(#treeGradient)"
+              stroke="#fff"
+              strokeWidth="2"
+            />
+            <text
+              x={node.x}
+              y={node.y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="white"
+              fontSize="16"
+              fontWeight="600"
+            >
+              {node.value}
+            </text>
+          </g>
+        ))}
+        <defs>
+          <linearGradient id="treeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fd7e14" />
+            <stop offset="100%" stopColor="#e83e8c" />
+          </linearGradient>
+        </defs>
+      </svg>
+    );
+  };
+
   const renderVisualization = () => {
     const data = getCurrentData();
     
@@ -381,15 +566,7 @@ const DataStructures = () => {
     }
 
     if (activeTab === 'binaryTree') {
-      return (
-        <div className="tree-visualization">
-          {data.map((value, index) => (
-            <div key={index} className="tree-node">
-              {value}
-            </div>
-          ))}
-        </div>
-      );
+      return renderBinaryTree();
     }
 
     return (
@@ -414,34 +591,69 @@ const DataStructures = () => {
       <div className="main-content">
         <div className="sidebar">
           <h3>🌟 Choose a Data Structure 🌟</h3>
-          <div className="tab-buttons">
+          <div className="tab-buttons" role="tablist" aria-label="Data structure selection">
             <button 
               className={activeTab === 'array' ? 'active' : ''}
-              onClick={() => setActiveTab('array')}
+              onClick={() => {
+                setActiveTab('array');
+                setError('');
+                setInputValue('');
+              }}
+              role="tab"
+              aria-selected={activeTab === 'array'}
+              aria-label="Select Array data structure"
             >
               📊 Array
             </button>
             <button 
               className={activeTab === 'stack' ? 'active' : ''}
-              onClick={() => setActiveTab('stack')}
+              onClick={() => {
+                setActiveTab('stack');
+                setError('');
+                setInputValue('');
+              }}
+              role="tab"
+              aria-selected={activeTab === 'stack'}
+              aria-label="Select Stack data structure"
             >
               📚 Stack
             </button>
             <button 
               className={activeTab === 'queue' ? 'active' : ''}
-              onClick={() => setActiveTab('queue')}
+              onClick={() => {
+                setActiveTab('queue');
+                setError('');
+                setInputValue('');
+              }}
+              role="tab"
+              aria-selected={activeTab === 'queue'}
+              aria-label="Select Queue data structure"
             >
               🎯 Queue
             </button>
             <button 
               className={activeTab === 'linkedList' ? 'active' : ''}
-              onClick={() => setActiveTab('linkedList')}
+              onClick={() => {
+                setActiveTab('linkedList');
+                setError('');
+                setInputValue('');
+              }}
+              role="tab"
+              aria-selected={activeTab === 'linkedList'}
+              aria-label="Select Linked List data structure"
             >
               🔗 Linked List
             </button>
             <button 
               className={activeTab === 'binaryTree' ? 'active' : ''}
-              onClick={() => setActiveTab('binaryTree')}
+              onClick={() => {
+                setActiveTab('binaryTree');
+                setError('');
+                setInputValue('');
+              }}
+              role="tab"
+              aria-selected={activeTab === 'binaryTree'}
+              aria-label="Select Binary Tree data structure"
             >
               🌳 Binary Tree
             </button>
@@ -451,9 +663,22 @@ const DataStructures = () => {
         <div className="content-area">
           <div className="structure-header">
             <h2>{getTitle()}</h2>
-            <button className="clear-btn" onClick={clearStructure}>
-              🗑️ Clear All
-            </button>
+            <div className="header-buttons">
+              <button 
+                className="save-btn" 
+                onClick={() => setShowSessionModal(true)}
+                aria-label="Save or load sessions"
+              >
+                💾 Sessions
+              </button>
+              <button 
+                className="clear-btn" 
+                onClick={clearStructure}
+                aria-label="Clear all elements from current data structure"
+              >
+                🗑️ Clear All
+              </button>
+            </div>
           </div>
 
           <div className="visualization-container">
@@ -463,24 +688,76 @@ const DataStructures = () => {
           <div className="controls">
             <div className="input-group">
               <input
-                type="text"
+                type={activeTab === 'binaryTree' ? 'number' : 'text'}
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="💫 Enter a value to add..."
-                className="value-input"
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  setError('');
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const operations = getOperations();
+                    const defaultOp = operations[0]; // First operation as default
+                    handleOperation(defaultOp);
+                  } else if (e.key === 'Escape') {
+                    setInputValue('');
+                    setError('');
+                  }
+                }}
+                placeholder={activeTab === 'binaryTree' ? '💫 Enter a number...' : '💫 Enter a value to add...'}
+                className={error ? 'value-input error' : 'value-input'}
+                aria-label="Input value for data structure operation"
+                aria-invalid={error ? 'true' : 'false'}
+                aria-describedby={error ? 'input-error' : undefined}
               />
+              {error && <div className="error-message" id="input-error" role="alert">{error}</div>}
             </div>
             
-            <div className="operation-buttons">
-              {getOperations().map(op => (
-                <button
-                  key={op}
-                  onClick={() => handleOperation(op)}
-                  className="operation-btn"
-                >
-                  {op.charAt(0).toUpperCase() + op.slice(1)}
-                </button>
-              ))}
+            <div className="operation-buttons" role="group" aria-label="Data structure operations">
+              {getOperations().map(op => {
+                const complexity = getComplexity(activeTab, op);
+                return (
+                  <button
+                    key={op}
+                    onClick={() => handleOperation(op)}
+                    className="operation-btn"
+                    aria-label={`${op.charAt(0).toUpperCase() + op.slice(1)} operation`}
+                    title={complexity ? `Time: ${complexity.time}, Space: ${complexity.space}` : ''}
+                  >
+                    <span>{op.charAt(0).toUpperCase() + op.slice(1)}</span>
+                    {complexity && (
+                      <span className="complexity-badge">{complexity.time}</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Complexity Information Section */}
+          <div className="complexity-info">
+            <h3>⏱️ Complexity Analysis</h3>
+            <div className="complexity-grid">
+              {getOperations().map(op => {
+                const complexity = getComplexity(activeTab, op);
+                if (!complexity) return null;
+                return (
+                  <div key={op} className="complexity-card">
+                    <h4>{op.charAt(0).toUpperCase() + op.slice(1)}</h4>
+                    <div className="complexity-details">
+                      <div className="complexity-item">
+                        <span className="label">Time:</span>
+                        <span className="value time">{complexity.time}</span>
+                      </div>
+                      <div className="complexity-item">
+                        <span className="label">Space:</span>
+                        <span className="value space">{complexity.space}</span>
+                      </div>
+                    </div>
+                    <p className="complexity-description">{complexity.description}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -496,6 +773,75 @@ const DataStructures = () => {
           </div>
         </div>
       </div>
+
+      {/* Session Modal */}
+      {showSessionModal && (
+        <div className="modal-overlay" onClick={() => setShowSessionModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>💾 Save & Load Sessions</h3>
+            
+            <div className="save-session-section">
+              <h4>Save Current State</h4>
+              <div className="session-input-group">
+                <input
+                  type="text"
+                  value={sessionName}
+                  onChange={(e) => setSessionName(e.target.value)}
+                  placeholder="Enter session name..."
+                  className="session-input"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveSession();
+                  }}
+                />
+                <button onClick={handleSaveSession} className="modal-btn save">
+                  Save
+                </button>
+              </div>
+            </div>
+
+            <div className="load-session-section">
+              <h4>Saved Sessions</h4>
+              {sessions.length === 0 ? (
+                <p className="no-sessions">No saved sessions yet</p>
+              ) : (
+                <div className="sessions-list">
+                  {sessions.map((session) => (
+                    <div key={session.name} className="session-item">
+                      <div className="session-info">
+                        <span className="session-name">{session.name}</span>
+                        <span className="session-date">
+                          {new Date(session.timestamp).toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="session-actions">
+                        <button 
+                          onClick={() => handleLoadSession(session.name)}
+                          className="modal-btn load"
+                        >
+                          Load
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteSession(session.name)}
+                          className="modal-btn delete"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button 
+              onClick={() => setShowSessionModal(false)}
+              className="modal-btn close"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
