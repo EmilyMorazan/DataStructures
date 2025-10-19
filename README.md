@@ -4,14 +4,10 @@ Many Computer Science students struggle to translate academic programming knowle
 
 1) Data Structures Lab (learn → apply → ship)
 Visual intros, interactive animations, and code exercises for arrays, linked lists, stacks/queues, hash maps, trees/tries, heaps, graphs, BFS/DFS, Dijkstra, union-find.
-“Where it’s used in industry” tiles (autocomplete with tries, caching with LRU, graph traversal in routing).
-Autograded tests + benchmarks; upon pass, generate README, perf notes, and a clean repo scaffold to push to GitHub.
-Role tags: Backend, Mobile, Data/ML, Systems—so learners see why it matters for specific jobs.
 
 2) Programming Languages Review Game (“Index Quest”)
 Indexed by language (Python, Java, C++, JS) and topic (syntax, types, OOP, std lib, memory model, concurrency).
 Micro-challenges: predict output, spot the bug, fill the gap, tiny refactor.
-Cross-language mapping (e.g., Python list comp ↔ Java streams).
 Outputs a Skills Matrix and badges; exportable for LinkedIn/GitHub profile.
 
 3) Concept Review (spaced & scenario-based)
