@@ -1,11 +1,11 @@
 import React from 'react';
-import DataStructures from './components/DataStructures';
+import MainPage from './components/MainPage';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <DataStructures />
+      <MainPage />
     </div>
   );
 }
