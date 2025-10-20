@@ -33,7 +33,7 @@ const MainPage = () => {
                   className="feature-card clickable"
                   onClick={() => setActivePage('concepts')}
                 >
-                  <h3>💡 Concepts</h3>
+                  <h3>💡Review Programming Languages </h3>
                   <p>Review important programming concepts and best practices</p>
                 </div>
               </div>
@@ -46,24 +46,121 @@ const MainPage = () => {
         return <Algorithms />;
       case 'concepts':
         return (
-          <div className="concepts-page">
-            <h2>💡 Programming Concepts</h2>
-            <div className="coming-soon">
-              <h3>Coming Soon!</h3>
-              <p>This section will contain explanations of important programming concepts.</p>
-              <div className="placeholder-content">
-                <div className="concept-card">
-                  <h4>Object-Oriented Programming</h4>
-                  <p>Classes, Objects, Inheritance, Polymorphism...</p>
-                </div>
-                <div className="concept-card">
-                  <h4>Functional Programming</h4>
-                  <p>Pure Functions, Immutability, Higher-Order Functions...</p>
-                </div>
-                <div className="concept-card">
-                  <h4>Design Patterns</h4>
-                  <p>Singleton, Factory, Observer, and more...</p>
-                </div>
+          <div className="languages-page">
+            <h2>🌐 Review Programming Languages</h2>
+            <div className="languages-content">
+              <p>Explore different programming languages and their resources:</p>
+              <div className="languages-table-container">
+                <table className="languages-table">
+                  <thead>
+                    <tr>
+                      <th>Language</th>
+                      <th>Type</th>
+                      <th>Resources</th>
+                      <th>Documentation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span className="language-name">☕ Java</span></td>
+                      <td>Object-Oriented</td>
+                      <td>
+                        <a href="https://www.oracle.com/java/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          Official Site
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://docs.oracle.com/javase/tutorial/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          Java Tutorials
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span className="language-name">🐍 Python</span></td>
+                      <td>General Purpose</td>
+                      <td>
+                        <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          Official Site
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          Python Docs
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span className="language-name">⚡ C++</span></td>
+                      <td>System Programming</td>
+                      <td>
+                        <a href="https://isocpp.org/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          ISO C++
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://en.cppreference.com/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          C++ Reference
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span className="language-name">🔧 C</span></td>
+                      <td>System Programming</td>
+                      <td>
+                        <a href="https://www.iso.org/standard/74528.html" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          ISO C Standard
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://en.cppreference.com/w/c" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          C Reference
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span className="language-name">🟨 JavaScript</span></td>
+                      <td>Web Development</td>
+                      <td>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          MDN Web Docs
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://javascript.info/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          JavaScript.info
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span className="language-name">🌐 HTML</span></td>
+                      <td>Markup Language</td>
+                      <td>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          MDN HTML
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://www.w3schools.com/html/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          W3Schools HTML
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span className="language-name">🎨 CSS</span></td>
+                      <td>Styling Language</td>
+                      <td>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          MDN CSS
+                        </a>
+                      </td>
+                      <td>
+                        <a href="https://www.w3schools.com/css/" target="_blank" rel="noopener noreferrer" className="resource-link">
+                          W3Schools CSS
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -103,7 +200,7 @@ const MainPage = () => {
           className={activePage === 'concepts' ? 'nav-btn active' : 'nav-btn'}
           onClick={() => setActivePage('concepts')}
         >
-          💡 Concepts
+          💡 Review Programming Languages
         </button>
       </nav>
 
