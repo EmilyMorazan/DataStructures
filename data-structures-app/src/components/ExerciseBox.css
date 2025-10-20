@@ -1,0 +1,346 @@
+/* Exercise Box Styles */
+.exercise-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 2rem;
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px 20px 0 0;
+}
+
+.exercise-header h3 {
+  margin: 0;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.help-icon {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.help-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.exercise-content {
+  padding: 1.5rem;
+}
+
+.category-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.category-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.category-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.category-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: rgba(102, 126, 234, 0.5);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.exercise-instruction {
+  color: white;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.exercise-instruction .highlight {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.code-area {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.code-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.code-text {
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.code-placeholder {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  min-width: 120px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.code-placeholder.filled {
+  background: rgba(76, 175, 80, 0.2);
+  border: 2px solid rgba(76, 175, 80, 0.5);
+  color: #4caf50;
+}
+
+.options-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.option-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.option-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.option-button.selected {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
+  color: #e0e0ff;
+}
+
+.option-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.exercise-actions {
+  margin-bottom: 1rem;
+}
+
+.submit-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.submit-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.submit-button:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.result-message {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.result-message.correct {
+  border-left-color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.result-message.incorrect {
+  border-left-color: #f44336;
+  background: rgba(244, 67, 54, 0.1);
+}
+
+.result-message p {
+  margin: 0 0 0.5rem 0;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.complete-code {
+  font-family: 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: #4caf50;
+  font-size: 0.85rem;
+}
+
+.hint {
+  color: #ffcc80;
+  font-style: italic;
+}
+
+.result-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.next-button,
+.reset-button {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.next-button {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.next-button:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+.reset-button {
+  background: linear-gradient(135deg, #f230b8, #eb9ec8);
+  color: white;
+}
+
+.reset-button:hover {
+  background: linear-gradient(135deg, #eb9ec8, #f230b8);
+}
+
+.exercise-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.language-badge {
+  background: rgba(102, 126, 234, 0.3);
+  color: #e0e0ff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.exercise-counter {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .exercise-box {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin: 1rem 0;
+  }
+  
+  .options-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .exercise-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .exercise-content {
+    padding: 1rem;
+  }
+}
+
+/* Animation for correct/incorrect feedback */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.result-message.incorrect {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.result-message.correct {
+  animation: pulse 0.6s ease-in-out;
+}

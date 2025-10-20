@@ -19,7 +19,7 @@
 .algorithms-header h1 {
   margin: 0;
   font-size: 2.5rem;
-  color: white;
+  color: rgb(212, 10, 178);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -157,7 +157,7 @@
 }
 
 .bar {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #c811ed, #c12996);
   border-radius: 4px 4px 0 0;
   display: flex;
   align-items: flex-start;
@@ -174,7 +174,7 @@
 }
 
 .bar.sorted {
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: linear-gradient(135deg, #3d28a7, #a618d6);
   box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
@@ -195,7 +195,7 @@
 }
 
 .stat-item {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #e631d1, #dd7ebe);
   color: white;
   padding: 1rem;
   border-radius: 12px;
@@ -241,7 +241,7 @@
   border-radius: 4px;
   outline: none;
   -webkit-appearance: none;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #f66bcc, #cd93bc);
   cursor: pointer;
 }
 
@@ -263,7 +263,7 @@
   height: 20px;
   border-radius: 50%;
   background: white;
-  border: 3px solid #667eea;
+  border: 3px solid #d14cc8;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -295,13 +295,13 @@
 }
 
 .sort-btn {
-  background: linear-gradient(135deg, #28a745, #20c997);
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  background: linear-gradient(135deg, #f230b8, #eb9ec8);
+  box-shadow: 0 4px 15px rgba(162, 88, 209, 0.3);
 }
 
 .sort-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+  box-shadow: 0 6px 20px rgba(173, 141, 157, 0.4);
 }
 
 .sort-btn:disabled {
@@ -310,8 +310,8 @@
 }
 
 .generate-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, #e7bed8, #f591bf);
+  box-shadow: 0 4px 15px rgba(223, 118, 236, 0.3);
 }
 
 .generate-btn:hover:not(:disabled) {
