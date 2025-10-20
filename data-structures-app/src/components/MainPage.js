@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DataStructures from './DataStructures';
+import Algorithms from './Algorithms';
 import './MainPage.css';
 
 const MainPage = () => {
@@ -42,31 +43,8 @@ const MainPage = () => {
       case 'datastructures':
         return <DataStructures />;
       case 'algorithms':
-        return (
-          <div className="algorithms-page">
-            <h2>🔧 Algorithms</h2>
-            <div className="coming-soon">
-              <h3>Coming Soon!</h3>
-              <p>This section will contain interactive algorithm visualizations and explanations.</p>
-              <div className="placeholder-content">
-                <div className="algorithm-card">
-                  <h4>Sorting Algorithms</h4>
-                  <p>Bubble Sort, Quick Sort, Merge Sort, and more...</p>
-                </div>
-                <div className="algorithm-card">
-                  <h4>Searching Algorithms</h4>
-                  <p>Linear Search, Binary Search, and more...</p>
-                </div>
-                <div className="algorithm-card">
-                  <h4>Graph Algorithms</h4>
-                  <p>DFS, BFS, Dijkstra's Algorithm, and more...</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'concepts': 
-    //   concepts are programming languages
+        return <Algorithms />;
+      case 'concepts':
         return (
           <div className="languages-page">
             <h2>🌐 Review Programming Languages</h2>
