@@ -140,6 +140,12 @@
   text-align: center;
 }
 
+.languages-page .languages-content > p {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
 .algorithms-page h2,
 .concepts-page h2,
 .languages-page h2 {

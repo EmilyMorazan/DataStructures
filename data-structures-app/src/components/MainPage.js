@@ -53,7 +53,6 @@ const MainPage = () => {
             <h2>🌐 Review Programming Languages</h2>
             <div className="languages-content">
               <p>Explore different programming languages and their resources:</p>
-              
               <div className="content-grid">
                 <div className="content-section">
                   <div className="section-header">

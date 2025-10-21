@@ -134,9 +134,9 @@
 }
 
 .code-placeholder.filled {
-  background: rgba(76, 175, 80, 0.2);
-  border: 2px solid rgba(76, 175, 80, 0.5);
-  color: #4caf50;
+  background: rgba(110, 10, 216, 0.2);
+  border: 2px solid rgba(21, 191, 225, 0.5);
+  color: #0cbef0;
 }
 
 .options-container {
@@ -289,7 +289,7 @@
 }
 
 .language-badge {
-  background: rgba(102, 126, 234, 0.3);
+  background: rgba(172, 212, 237, 0.3);
   color: #e0e0ff;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;

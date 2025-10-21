@@ -75,10 +75,10 @@
 }
 
 .lang-btn.active {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-color: rgba(102, 126, 234, 0.5);
+  background: linear-gradient(135deg, #f23697, #d93edf);
+  border-color: rgba(227, 38, 142, 0.5);
   color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(178, 189, 237, 0.3);
 }
 
 .category-buttons {
@@ -128,10 +128,11 @@
 }
 
 .code-display {
-  background: rgba(0, 0, 0, 0.3);
+    /* background: rgba(0, 0, 0, 0.3); */
+  background: rgb(231 215 215 / 30%);  
   border-radius: 8px;
   padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #ff69b4;
 }
 
 .syntax-code {
