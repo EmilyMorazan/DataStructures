@@ -104,8 +104,8 @@
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
   margin-bottom: 1rem;
 }
 
@@ -113,6 +113,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
 }
 
 .info-item .label {
@@ -240,6 +244,7 @@
   height: 8px;
   border-radius: 4px;
   outline: none;
+  appearance: none;
   -webkit-appearance: none;
   background: linear-gradient(135deg, #f66bcc, #cd93bc);
   cursor: pointer;
@@ -281,7 +286,8 @@
 }
 
 .sort-btn,
-.generate-btn {
+.generate-btn,
+.capture-btn {
   padding: 1rem 2rem;
   border: none;
   border-radius: 12px;
@@ -324,6 +330,16 @@
   cursor: not-allowed;
 }
 
+.capture-btn {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.capture-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .algorithms-container {
@@ -351,7 +367,8 @@
   }
 
   .sort-btn,
-  .generate-btn {
+  .generate-btn,
+  .capture-btn {
     width: 100%;
   }
 }

@@ -190,6 +190,30 @@ const Algorithms = () => {
     }
   };
 
+  const captureAlgorithmProject = () => {
+    const algorithmInfo = getAlgorithmInfo();
+    const projectData = {
+      type: 'algorithms',
+      algorithm: activeAlgorithm,
+      algorithmName: algorithmInfo.name,
+      timeComplexity: algorithmInfo.time,
+      spaceComplexity: algorithmInfo.space,
+      description: algorithmInfo.description,
+      arraySize: array.length,
+      comparisons: comparisons,
+      swaps: swaps,
+      timestamp: new Date().toISOString()
+    };
+    
+    // Store in localStorage for portfolio builder to access
+    const existingProjects = JSON.parse(localStorage.getItem('capturedProjects') || '[]');
+    existingProjects.push(projectData);
+    localStorage.setItem('capturedProjects', JSON.stringify(existingProjects));
+    
+    // Show success message
+    alert('Algorithm project captured! You can now add it to your portfolio in the Portfolio Builder section.');
+  };
+
   const getAlgorithmInfo = () => {
     const info = {
       bubble: {
@@ -250,20 +274,26 @@ const Algorithms = () => {
           </div>
         </div>
 
-        {/* Algorithm Info */}
+        {/* Static Algorithm Info */}
         <div className="algorithm-info">
-          <h2>{getAlgorithmInfo().name}</h2>
+          <h2>Sorting Algorithms Overview</h2>
           <div className="info-grid">
             <div className="info-item">
-              <span className="label">Time Complexity:</span>
-              <span className="value">{getAlgorithmInfo().time}</span>
+              <span className="label">Bubble Sort:</span>
+              <span className="value">O(n²) time, O(1) space</span>
             </div>
             <div className="info-item">
-              <span className="label">Space Complexity:</span>
-              <span className="value">{getAlgorithmInfo().space}</span>
+              <span className="label">Quick Sort:</span>
+              <span className="value">O(n log n) avg, O(log n) space</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Merge Sort:</span>
+              <span className="value">O(n log n) time, O(n) space</span>
             </div>
           </div>
-          <p className="algorithm-description">{getAlgorithmInfo().description}</p>
+          <p className="algorithm-description">
+            This visualizer demonstrates three fundamental sorting algorithms. Each algorithm has different time and space complexity characteristics, making them suitable for different scenarios. Bubble Sort is simple but inefficient for large datasets, while Quick Sort and Merge Sort offer better performance with trade-offs in space usage.
+          </p>
         </div>
 
         {/* Visualization */}
@@ -342,6 +372,12 @@ const Algorithms = () => {
               className="generate-btn"
             >
               Generate New Array
+            </button>
+            <button 
+              onClick={captureAlgorithmProject}
+              className="capture-btn"
+            >
+              📸 Capture Project
             </button>
           </div>
         </div>

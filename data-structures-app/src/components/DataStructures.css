@@ -151,6 +151,16 @@
   box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
 }
 
+.capture-btn {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.capture-btn:hover {
+  background: linear-gradient(135deg, #20c997, #17a2b8);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
 .visualization-container {
   min-height: 200px;
   background: linear-gradient(135deg, #ffe4e6, #fff0f5);
