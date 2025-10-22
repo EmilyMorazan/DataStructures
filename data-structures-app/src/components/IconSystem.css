@@ -1,0 +1,92 @@
+/* Icon System Styles */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--animation-normal);
+}
+
+/* Icon Sizes */
+.icon-xs {
+  font-size: var(--text-xs);
+}
+
+.icon-sm {
+  font-size: var(--text-sm);
+}
+
+.icon-md {
+  font-size: var(--text-base);
+}
+
+.icon-lg {
+  font-size: var(--text-lg);
+}
+
+.icon-xl {
+  font-size: var(--text-xl);
+}
+
+/* Icon Animations */
+.icon-animated {
+  cursor: pointer;
+}
+
+.icon-animated:hover {
+  transform: scale(1.1);
+}
+
+.icon-animated:active {
+  transform: scale(0.95);
+}
+
+/* Specific Icon Animations */
+.icon-rotate:hover {
+  transform: rotate(180deg);
+}
+
+.icon-bounce {
+  animation: iconBounce 1s infinite;
+}
+
+.icon-pulse {
+  animation: iconPulse 2s infinite;
+}
+
+.icon-shake {
+  animation: iconShake 1s infinite;
+}
+
+/* Animation Keyframes */
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
+}
+
+@keyframes iconPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes iconShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-25%);
+  }
+  75% {
+    transform: translateX(25%);
+  }
+}
