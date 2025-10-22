@@ -255,7 +255,8 @@ const DataStructures = () => {
 
     // Binary tree requires numeric values
     if (activeTab === 'binaryTree') {
-      if (isNaN(inputValue)) {
+      const allNumeric = inputValue.split(',').every(v => !isNaN(v.trim()));
+      if (!allNumeric) {
         setError('Binary tree requires numeric values');
         return false;
       }
@@ -278,8 +279,9 @@ const DataStructures = () => {
     switch (operation) {
       case 'push':
         if (inputValue) {
-          ds.push(inputValue);
-          addOperation(`Pushed: ${inputValue}`);
+          const values = inputValue.split(',').map(v => v.trim()).filter(v => v !== '');
+          values.forEach(val => ds.push(val));
+          addOperation(`Pushed: ${values.join(', ')}`);
           setInputValue('');
           setError('');
         }
@@ -294,8 +296,9 @@ const DataStructures = () => {
         break;
       case 'enqueue':
         if (inputValue) {
-          ds.enqueue(inputValue);
-          addOperation(`Enqueued: ${inputValue}`);
+          const values = inputValue.split(',').map(v => v.trim()).filter(v => v !== '');
+          values.forEach(val => ds.enqueue(val));
+          addOperation(`Enqueued: ${values.join(', ')}`);
           setInputValue('');
           setError('');
         }
@@ -311,8 +314,9 @@ const DataStructures = () => {
         break;
       case 'add':
         if (inputValue) {
-          ds.add(inputValue);
-          addOperation(`Added: ${inputValue}`);
+          const values = inputValue.split(',').map(v => v.trim()).filter(v => v !== '');
+          values.forEach(val => ds.add(val));
+          addOperation(`Added: ${values.join(', ')}`);
           setInputValue('');
           setError('');
         }
@@ -327,9 +331,12 @@ const DataStructures = () => {
         break;
       case 'insert':
         if (inputValue) {
-          const value = activeTab === 'binaryTree' ? parseFloat(inputValue) : inputValue;
-          ds.insert(value);
-          addOperation(`Inserted: ${inputValue}`);
+          const values = inputValue.split(',').map(v => v.trim()).filter(v => v !== '');
+          values.forEach(val => {
+            const value = activeTab === 'binaryTree' ? parseFloat(val) : val;
+            ds.insert(value);
+          });
+          addOperation(`Inserted: ${values.join(', ')}`);
           setInputValue('');
           setError('');
         }
@@ -688,7 +695,7 @@ const DataStructures = () => {
           <div className="controls">
             <div className="input-group">
               <input
-                type={activeTab === 'binaryTree' ? 'number' : 'text'}
+                type='text'
                 value={inputValue}
                 onChange={(e) => {
                   setInputValue(e.target.value);
@@ -704,7 +711,7 @@ const DataStructures = () => {
                     setError('');
                   }
                 }}
-                placeholder={activeTab === 'binaryTree' ? '💫 Enter a number...' : '💫 Enter a value to add...'}
+                placeholder={activeTab === 'binaryTree' ? '💫 Enter a number or comma-separated list of numbers to add...' : '💫 Enter a value or comma-separated list of values to add...'}
                 className={error ? 'value-input error' : 'value-input'}
                 aria-label="Input value for data structure operation"
                 aria-invalid={error ? 'true' : 'false'}
