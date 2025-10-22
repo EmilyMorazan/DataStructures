@@ -3,10 +3,14 @@ import DataStructures from './DataStructures';
 import Algorithms from './Algorithms';
 import ExerciseBox from './ExerciseBox';
 import SyntaxBox from './SyntaxBox';
+import ContextAwareChatbot from './ContextAwareChatbot';
+import { FaComments } from 'react-icons/fa';
 import './MainPage.css';
 
 const MainPage = () => {
   const [activePage, setActivePage] = useState('home');
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatbotContext, setChatbotContext] = useState({});
 
   const renderPageContent = () => {
     switch (activePage) {
@@ -44,9 +48,9 @@ const MainPage = () => {
           </div>
         );
       case 'datastructures':
-        return <DataStructures />;
+        return <DataStructures onContextChange={setChatbotContext} />;
       case 'algorithms':
-        return <Algorithms />;
+        return <Algorithms onContextChange={setChatbotContext} />;
       case 'concepts':
         return (
           <div className="languages-page">
@@ -225,6 +229,30 @@ const MainPage = () => {
       <main className="main-content">
         {renderPageContent()}
       </main>
+
+      {/* Chat UI */}
+      <div className="chat-interface">
+        {/* Floating Chat Button */}
+        <button 
+          className={`chat-fab ${isChatOpen ? 'hidden' : ''}`}
+          onClick={() => setIsChatOpen(true)}
+          aria-label="Open chat"
+          title="Open chat with AI tutor"
+        >
+          <FaComments className="chat-fab-icon" />
+        </button>
+
+        {/* Chat Window */}
+        <div className={`floating-chatbot-container ${!isChatOpen ? 'hidden' : ''}`}>
+          <ContextAwareChatbot 
+            context={{
+              pageType: activePage,
+              ...chatbotContext
+            }}
+            onMinimize={() => setIsChatOpen(false)}
+          />
+        </div>
+      </div>
     </div>
   );
 };
